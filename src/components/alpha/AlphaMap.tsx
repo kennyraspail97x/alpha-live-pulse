@@ -54,9 +54,9 @@ export function AlphaMap({
   className,
 }: {
   pins: MapPin[];
-  selectedId?: string;
+  selectedId?: string | undefined;
   onSelect: (pin: MapPin) => void;
-  className?: string;
+  className?: string | undefined;
 }) {
   const me = project(HOME.lat, HOME.lng);
   return (

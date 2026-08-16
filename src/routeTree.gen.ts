@@ -10,13 +10,22 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as BookingsRouteImport } from './routes/bookings'
 import { Route as ExploreRouteImport } from './routes/explore'
 import { Route as MapRouteImport } from './routes/map'
+import { Route as StaysRouteImport } from './routes/stays'
+import { Route as EventIdRouteImport } from './routes/event.$id'
+import { Route as LiveIdRouteImport } from './routes/live.$id'
 import { Route as PlaceIdRouteImport } from './routes/place.$id'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BookingsRoute = BookingsRouteImport.update({
+  id: '/bookings',
+  path: '/bookings',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ExploreRoute = ExploreRouteImport.update({
@@ -29,6 +38,21 @@ const MapRoute = MapRouteImport.update({
   path: '/map',
   getParentRoute: () => rootRouteImport,
 } as any)
+const StaysRoute = StaysRouteImport.update({
+  id: '/stays',
+  path: '/stays',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const EventIdRoute = EventIdRouteImport.update({
+  id: '/event/$id',
+  path: '/event/$id',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LiveIdRoute = LiveIdRouteImport.update({
+  id: '/live/$id',
+  path: '/live/$id',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const PlaceIdRoute = PlaceIdRouteImport.update({
   id: '/place/$id',
   path: '/place/$id',
@@ -37,35 +61,76 @@ const PlaceIdRoute = PlaceIdRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/bookings': typeof BookingsRoute
   '/explore': typeof ExploreRoute
   '/map': typeof MapRoute
+  '/stays': typeof StaysRoute
+  '/event/$id': typeof EventIdRoute
+  '/live/$id': typeof LiveIdRoute
   '/place/$id': typeof PlaceIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/bookings': typeof BookingsRoute
   '/explore': typeof ExploreRoute
   '/map': typeof MapRoute
+  '/stays': typeof StaysRoute
+  '/event/$id': typeof EventIdRoute
+  '/live/$id': typeof LiveIdRoute
   '/place/$id': typeof PlaceIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/bookings': typeof BookingsRoute
   '/explore': typeof ExploreRoute
   '/map': typeof MapRoute
+  '/stays': typeof StaysRoute
+  '/event/$id': typeof EventIdRoute
+  '/live/$id': typeof LiveIdRoute
   '/place/$id': typeof PlaceIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/explore' | '/map' | '/place/$id'
+  fullPaths:
+    | '/'
+    | '/bookings'
+    | '/explore'
+    | '/map'
+    | '/stays'
+    | '/event/$id'
+    | '/live/$id'
+    | '/place/$id'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/explore' | '/map' | '/place/$id'
-  id: '__root__' | '/' | '/explore' | '/map' | '/place/$id'
+  to:
+    | '/'
+    | '/bookings'
+    | '/explore'
+    | '/map'
+    | '/stays'
+    | '/event/$id'
+    | '/live/$id'
+    | '/place/$id'
+  id:
+    | '__root__'
+    | '/'
+    | '/bookings'
+    | '/explore'
+    | '/map'
+    | '/stays'
+    | '/event/$id'
+    | '/live/$id'
+    | '/place/$id'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  BookingsRoute: typeof BookingsRoute
   ExploreRoute: typeof ExploreRoute
   MapRoute: typeof MapRoute
+  StaysRoute: typeof StaysRoute
+  EventIdRoute: typeof EventIdRoute
+  LiveIdRoute: typeof LiveIdRoute
   PlaceIdRoute: typeof PlaceIdRoute
 }
 
@@ -76,6 +141,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/bookings': {
+      id: '/bookings'
+      path: '/bookings'
+      fullPath: '/bookings'
+      preLoaderRoute: typeof BookingsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/explore': {
@@ -92,6 +164,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof MapRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/stays': {
+      id: '/stays'
+      path: '/stays'
+      fullPath: '/stays'
+      preLoaderRoute: typeof StaysRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/event/$id': {
+      id: '/event/$id'
+      path: '/event/$id'
+      fullPath: '/event/$id'
+      preLoaderRoute: typeof EventIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/live/$id': {
+      id: '/live/$id'
+      path: '/live/$id'
+      fullPath: '/live/$id'
+      preLoaderRoute: typeof LiveIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/place/$id': {
       id: '/place/$id'
       path: '/place/$id'
@@ -104,8 +197,12 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  BookingsRoute: BookingsRoute,
   ExploreRoute: ExploreRoute,
   MapRoute: MapRoute,
+  StaysRoute: StaysRoute,
+  EventIdRoute: EventIdRoute,
+  LiveIdRoute: LiveIdRoute,
   PlaceIdRoute: PlaceIdRoute,
 }
 export const routeTree = rootRouteImport

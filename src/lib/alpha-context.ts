@@ -54,9 +54,9 @@ export interface Scored {
 export function recommend(
   ctx: TimeContext,
   opts: {
-    maxMinutes?: number;
-    tags?: string[];
-    category?: string;
+    maxMinutes?: number | undefined;
+    tags?: string[] | undefined;
+    category?: string | undefined;
     origin?: { lat: number; lng: number };
     limit?: number;
   } = {},

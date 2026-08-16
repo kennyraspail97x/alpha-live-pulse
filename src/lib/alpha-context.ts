@@ -31,7 +31,7 @@ export function getTimeContext(now: Date): TimeContext {
               ? "Fin de journée"
               : "Soirée";
   const sunset = 18.4;
-  const sunsetIn = hour < sunset ? Math.round((sunset - hour) * 60) : null;
+  const sunsetIn = hour < sunset && sunset - hour <= 6 ? Math.round((sunset - hour) * 60) : null;
   return {
     hour,
     label,

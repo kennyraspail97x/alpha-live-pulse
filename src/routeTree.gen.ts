@@ -10,33 +10,63 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ExploreRouteImport } from './routes/explore'
+import { Route as MapRouteImport } from './routes/map'
+import { Route as PlaceIdRouteImport } from './routes/place.$id'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ExploreRoute = ExploreRouteImport.update({
+  id: '/explore',
+  path: '/explore',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MapRoute = MapRouteImport.update({
+  id: '/map',
+  path: '/map',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PlaceIdRoute = PlaceIdRouteImport.update({
+  id: '/place/$id',
+  path: '/place/$id',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/explore': typeof ExploreRoute
+  '/map': typeof MapRoute
+  '/place/$id': typeof PlaceIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/explore': typeof ExploreRoute
+  '/map': typeof MapRoute
+  '/place/$id': typeof PlaceIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/explore': typeof ExploreRoute
+  '/map': typeof MapRoute
+  '/place/$id': typeof PlaceIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths: '/' | '/explore' | '/map' | '/place/$id'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to: '/' | '/explore' | '/map' | '/place/$id'
+  id: '__root__' | '/' | '/explore' | '/map' | '/place/$id'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  ExploreRoute: typeof ExploreRoute
+  MapRoute: typeof MapRoute
+  PlaceIdRoute: typeof PlaceIdRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +78,35 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/explore': {
+      id: '/explore'
+      path: '/explore'
+      fullPath: '/explore'
+      preLoaderRoute: typeof ExploreRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/map': {
+      id: '/map'
+      path: '/map'
+      fullPath: '/map'
+      preLoaderRoute: typeof MapRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/place/$id': {
+      id: '/place/$id'
+      path: '/place/$id'
+      fullPath: '/place/$id'
+      preLoaderRoute: typeof PlaceIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  ExploreRoute: ExploreRoute,
+  MapRoute: MapRoute,
+  PlaceIdRoute: PlaceIdRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

@@ -17,6 +17,7 @@ import { Route as ProfileRouteImport } from './routes/profile'
 import { Route as StaysRouteImport } from './routes/stays'
 import { Route as TripsRouteImport } from './routes/trips'
 import { Route as EventIdRouteImport } from './routes/event.$id'
+import { Route as ExperienceIdRouteImport } from './routes/experience.$id'
 import { Route as LiveIdRouteImport } from './routes/live.$id'
 import { Route as PlaceIdRouteImport } from './routes/place.$id'
 
@@ -60,6 +61,11 @@ const EventIdRoute = EventIdRouteImport.update({
   path: '/event/$id',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ExperienceIdRoute = ExperienceIdRouteImport.update({
+  id: '/experience/$id',
+  path: '/experience/$id',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const LiveIdRoute = LiveIdRouteImport.update({
   id: '/live/$id',
   path: '/live/$id',
@@ -80,6 +86,7 @@ export interface FileRoutesByFullPath {
   '/stays': typeof StaysRoute
   '/trips': typeof TripsRoute
   '/event/$id': typeof EventIdRoute
+  '/experience/$id': typeof ExperienceIdRoute
   '/live/$id': typeof LiveIdRoute
   '/place/$id': typeof PlaceIdRoute
 }
@@ -92,6 +99,7 @@ export interface FileRoutesByTo {
   '/stays': typeof StaysRoute
   '/trips': typeof TripsRoute
   '/event/$id': typeof EventIdRoute
+  '/experience/$id': typeof ExperienceIdRoute
   '/live/$id': typeof LiveIdRoute
   '/place/$id': typeof PlaceIdRoute
 }
@@ -105,6 +113,7 @@ export interface FileRoutesById {
   '/stays': typeof StaysRoute
   '/trips': typeof TripsRoute
   '/event/$id': typeof EventIdRoute
+  '/experience/$id': typeof ExperienceIdRoute
   '/live/$id': typeof LiveIdRoute
   '/place/$id': typeof PlaceIdRoute
 }
@@ -119,6 +128,7 @@ export interface FileRouteTypes {
     | '/stays'
     | '/trips'
     | '/event/$id'
+    | '/experience/$id'
     | '/live/$id'
     | '/place/$id'
   fileRoutesByTo: FileRoutesByTo
@@ -131,6 +141,7 @@ export interface FileRouteTypes {
     | '/stays'
     | '/trips'
     | '/event/$id'
+    | '/experience/$id'
     | '/live/$id'
     | '/place/$id'
   id:
@@ -143,6 +154,7 @@ export interface FileRouteTypes {
     | '/stays'
     | '/trips'
     | '/event/$id'
+    | '/experience/$id'
     | '/live/$id'
     | '/place/$id'
   fileRoutesById: FileRoutesById
@@ -156,6 +168,7 @@ export interface RootRouteChildren {
   StaysRoute: typeof StaysRoute
   TripsRoute: typeof TripsRoute
   EventIdRoute: typeof EventIdRoute
+  ExperienceIdRoute: typeof ExperienceIdRoute
   LiveIdRoute: typeof LiveIdRoute
   PlaceIdRoute: typeof PlaceIdRoute
 }
@@ -218,6 +231,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof EventIdRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/experience/$id': {
+      id: '/experience/$id'
+      path: '/experience/$id'
+      fullPath: '/experience/$id'
+      preLoaderRoute: typeof ExperienceIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/live/$id': {
       id: '/live/$id'
       path: '/live/$id'
@@ -244,6 +264,7 @@ const rootRouteChildren: RootRouteChildren = {
   StaysRoute: StaysRoute,
   TripsRoute: TripsRoute,
   EventIdRoute: EventIdRoute,
+  ExperienceIdRoute: ExperienceIdRoute,
   LiveIdRoute: LiveIdRoute,
   PlaceIdRoute: PlaceIdRoute,
 }

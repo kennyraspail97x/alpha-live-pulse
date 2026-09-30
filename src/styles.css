@@ -159,3 +159,9 @@
 @utility animate-alpha-rise {
   animation: alpha-rise 0.45s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
+
+.alpha-map-pin { background: transparent; border: 0; }
+.alpha-map-pin span { display: grid; place-items: center; width: 34px; height: 34px; border: 2px solid var(--foreground); border-radius: 50%; color: var(--primary-foreground); box-shadow: 0 3px 12px var(--background); font-weight: 700; }
+.leaflet-container { background: var(--night); font-family: var(--font-sans); }
+.leaflet-control-attribution { opacity: .65; font-size: 9px !important; }
+@media (prefers-reduced-motion: reduce) { .animate-alpha-rise,.animate-alpha-pulse { animation: none; } }

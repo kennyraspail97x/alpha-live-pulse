@@ -1,9 +1,11 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useMemo, useState } from "react";
-import { AlphaMap, usePins, type MapLayer } from "@/components/alpha/AlphaMap";
+import { lazy, Suspense, useCallback, useMemo, useState } from "react";
+import { usePins, type MapLayer } from "@/components/alpha/AlphaMap";
 import { PlaceRow } from "@/components/alpha/cards";
 import { Chip } from "@/components/alpha/ui";
 import { HOME, distanceKm, driveMinutes, eventById, liveById, placeById, places } from "@/data/alpha";
+
+const InteractiveMap = lazy(() => import("@/components/alpha/InteractiveMap").then(m => ({ default: m.InteractiveMap })));
 
 export const Route = createFileRoute("/map")({
   head: () => ({
@@ -30,13 +32,16 @@ function MapPage() {
   const [layer, setLayer] = useState<MapLayer>("LIVE");
   const [selected, setSelected] = useState<string | null>(null);
   const pins = usePins(layer);
+  const [center, setCenter] = useState(HOME);
+  const [area, setArea] = useState(HOME);
+  const selectPin = useCallback((p: {id: string}) => setSelected(p.id), []);
 
   const nearbyPlaces = useMemo(
     () =>
       [...places]
-        .sort((a, b) => distanceKm(HOME, a) - distanceKm(HOME, b))
+        .sort((a, b) => distanceKm(area, a) - distanceKm(area, b))
         .slice(0, 8),
-    [],
+    [area],
   );
 
   const selectedPin = pins.find((p) => p.id === selected);
@@ -44,7 +49,7 @@ function MapPage() {
   return (
     <div className="relative">
       <div className="fixed inset-x-0 top-0 z-10 mx-auto h-[62vh] max-w-[520px]">
-        <AlphaMap pins={pins} selectedId={selected ?? undefined} onSelect={(p) => setSelected(p.id)} className="h-full w-full" />
+        <Suspense fallback={<div className="h-full bg-night" />}><InteractiveMap pins={pins} selectedId={selected ?? undefined} onSelect={selectPin} onMove={setCenter} /></Suspense>
         <div className="no-scrollbar absolute top-5 right-4 left-4 flex gap-2 overflow-x-auto">
           {LAYERS.map((l) => (
             <Chip key={l} active={layer === l} onClick={() => { setLayer(l); setSelected(null); }}>
@@ -52,6 +57,7 @@ function MapPage() {
             </Chip>
           ))}
         </div>
+        <div className="absolute bottom-[12%] left-4 flex gap-2"><Chip onClick={() => { navigator.geolocation?.getCurrentPosition(position => { const pos = { lat: position.coords.latitude, lng: position.coords.longitude }; setCenter(pos); setArea(pos); }, () => {}); }}>Me localiser</Chip><Chip onClick={() => setArea(center)}>Rechercher dans cette zone</Chip></div>
       </div>
 
       <div className="relative z-20 mt-[56vh] min-h-[60vh] rounded-t-[28px] bg-background pt-2 pb-6 alpha-hairline">
@@ -108,7 +114,7 @@ function MapPage() {
 
         <h2 className="px-5 font-display text-[18px] font-semibold">Autour de vous</h2>
         <p className="px-5 text-[12px] text-muted-foreground">
-          Position approximative — {HOME.town}. Votre localisation précise n'est jamais publique.
+          Position de référence : {HOME.town}. Votre position précise reste privée.
         </p>
         <div className="mt-3 space-y-2 px-5">
           {nearbyPlaces.map((p) => (

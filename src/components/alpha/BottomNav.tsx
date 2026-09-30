@@ -5,11 +5,11 @@ import { cn } from "@/lib/utils";
 import { Button } from "./ui";
 
 const tabs: { to: string; label: string; icon: typeof Compass; center?: boolean }[] = [
-  { to: "/", label: "Now", icon: Sparkles },
-  { to: "/explore", label: "Explore", icon: Compass },
-  { to: "/map", label: "Map", icon: Map, center: true },
-  { to: "/trips", label: "Trips", icon: RouteIcon },
-  { to: "/profile", label: "Profil", icon: User },
+  { to: "/", label: "Maintenant", icon: Sparkles },
+  { to: "/explore", label: "Explorer", icon: Compass },
+  { to: "/map", label: "Carte", icon: Map, center: true },
+  { to: "/trips", label: "Voyages", icon: RouteIcon },
+  { to: "/profile", label: "Mon Alpha", icon: User },
 ];
 
 export function BottomNav() {
@@ -26,11 +26,11 @@ export function BottomNav() {
           >
             <h3 className="font-display text-lg font-semibold">Créer</h3>
             <p className="mt-1 text-[12px] text-muted-foreground">
-              Tout ce que vous publiez reste rattaché à un lieu réel.
+              Publication indisponible dans cette démonstration.
             </p>
             <div className="mt-4 grid grid-cols-2 gap-2">
               {["Publier une Story", "Passer en Live", "Recommander un lieu", "Créer une collection"].map((l) => (
-                <Button key={l} variant="surface" className="h-14 justify-start px-4 text-left" onClick={() => setCreateOpen(false)}>
+                <Button key={l} variant="surface" className="h-14 justify-start px-4 text-left" disabled>
                   {l}
                 </Button>
               ))}

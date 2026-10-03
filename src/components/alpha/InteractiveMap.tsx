@@ -3,7 +3,7 @@ import { useEffect, useRef } from "react";
 import type { MapPin } from "./AlphaMap";
 import { HOME } from "@/data/alpha";
 
-export function InteractiveMap({ pins, selectedId, onSelect, onMove }: { pins: MapPin[]; selectedId?: string; onSelect: (pin: MapPin) => void; onMove: (center: {lat: number; lng: number}) => void }) {
+export function InteractiveMap({ pins, selectedId, onSelect, onMove }: { pins: MapPin[]; selectedId?: string | undefined; onSelect: (pin: MapPin) => void; onMove: (center: {lat: number; lng: number}) => void }) {
   const container = useRef<HTMLDivElement>(null);
   const mapRef = useRef<import("leaflet").Map | null>(null);
   const markersRef = useRef<import("leaflet").LayerGroup | null>(null);

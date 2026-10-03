@@ -1,3 +1,4 @@
+import "leaflet/dist/leaflet.css";
 import { useEffect, useRef } from "react";
 import type { MapPin } from "./AlphaMap";
 import { HOME } from "@/data/alpha";

@@ -136,15 +136,22 @@ function PlacePage() {
       </div>
 
       <div className="sticky top-0 z-10 flex gap-2 bg-background/90 px-5 py-3 backdrop-blur-xl">
-        <Button className="flex-1" onClick={() => setBooking(true)}>
-          {place.cta === "Go" ? "Y aller" : place.cta === "Book" ? "Réserver" : place.cta === "Buy Ticket" ? "Billet" : "Réserver"}
-        </Button>
+        <Link to="/experience/$id" params={{ id: place.id }} className="flex-1">
+          <Button className="w-full">Vivre ça</Button>
+        </Link>
         <Button variant="surface" onClick={() => toggleFollowPlace(place.id)}>
           {isFollowed ? "Suivi" : "Suivre"}
         </Button>
-        <Button variant="surface" aria-label="Itinéraire">
-          <Navigation className="h-4 w-4" />
-        </Button>
+        <a
+          href={`https://www.google.com/maps/dir/?api=1&destination=${place.lat},${place.lng}`}
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Itinéraire"
+        >
+          <Button variant="surface" aria-label="Itinéraire">
+            <Navigation className="h-4 w-4" />
+          </Button>
+        </a>
       </div>
 
       {live && (

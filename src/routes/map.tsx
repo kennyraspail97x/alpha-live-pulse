@@ -27,13 +27,14 @@ export const Route = createFileRoute("/map")({
 });
 
 const LAYERS: MapLayer[] = ["LIVE", "STORIES", "PLACES", "EVENTS", "STAYS"];
+const LAYER_LABEL: Record<MapLayer, string> = { LIVE: "Lives", STORIES: "Stories", PLACES: "Lieux", EVENTS: "Événements", STAYS: "Séjours" };
 
 function MapPage() {
   const [layer, setLayer] = useState<MapLayer>("LIVE");
   const [selected, setSelected] = useState<string | null>(null);
   const pins = usePins(layer);
-  const [center, setCenter] = useState(HOME);
-  const [area, setArea] = useState(HOME);
+  const [center, setCenter] = useState<{ lat: number; lng: number }>(HOME);
+  const [area, setArea] = useState<{ lat: number; lng: number }>(HOME);
   const selectPin = useCallback((p: {id: string}) => setSelected(p.id), []);
 
   const nearbyPlaces = useMemo(
@@ -50,14 +51,12 @@ function MapPage() {
     <div className="relative">
       <div className="fixed inset-x-0 top-0 z-10 mx-auto h-[62vh] max-w-[520px]">
         <Suspense fallback={<div className="h-full bg-night" />}><InteractiveMap pins={pins} selectedId={selected ?? undefined} onSelect={selectPin} onMove={setCenter} /></Suspense>
-        <div className="no-scrollbar absolute top-5 right-4 left-4 flex gap-2 overflow-x-auto">
+        <div className="no-scrollbar absolute top-5 right-4 left-4 z-[500] flex gap-2 overflow-x-auto">
           {LAYERS.map((l) => (
-            <Chip key={l} active={layer === l} onClick={() => { setLayer(l); setSelected(null); }}>
-              {l}
-            </Chip>
+            <Chip key={l} active={layer === l} onClick={() => { setLayer(l); setSelected(null); }}>{LAYER_LABEL[l]}</Chip>
           ))}
         </div>
-        <div className="absolute bottom-[12%] left-4 flex gap-2"><Chip onClick={() => { navigator.geolocation?.getCurrentPosition(position => { const pos = { lat: position.coords.latitude, lng: position.coords.longitude }; setCenter(pos); setArea(pos); }, () => {}); }}>Me localiser</Chip><Chip onClick={() => setArea(center)}>Rechercher dans cette zone</Chip></div>
+        <div className="absolute bottom-[12%] left-4 z-[500] flex gap-2"><Chip onClick={() => { navigator.geolocation?.getCurrentPosition(position => { const pos = { lat: position.coords.latitude, lng: position.coords.longitude }; setCenter(pos); setArea(pos); }, () => {}); }}>Me localiser</Chip><Chip onClick={() => setArea(center)}>Rechercher dans cette zone</Chip></div>
       </div>
 
       <div className="relative z-20 mt-[56vh] min-h-[60vh] rounded-t-[28px] bg-background pt-2 pb-6 alpha-hairline">
@@ -65,7 +64,7 @@ function MapPage() {
 
         {selectedPin && (
           <div className="mx-5 mb-4 rounded-2xl bg-surface p-4 alpha-hairline animate-alpha-rise">
-            <p className="text-[11px] tracking-widest text-muted-foreground uppercase">{selectedPin.kind}</p>
+            <p className="text-[11px] tracking-widest text-muted-foreground uppercase">{LAYER_LABEL[selectedPin.kind]}</p>
             <h3 className="mt-1 font-display text-[17px] font-semibold">{selectedPin.label}</h3>
             <p className="mt-0.5 text-[12px] text-muted-foreground">
               {selectedPin.meta} · {distanceKm(HOME, selectedPin).toFixed(1)} km ·{" "}

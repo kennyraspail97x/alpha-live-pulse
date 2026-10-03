@@ -32,8 +32,8 @@ function MapPage() {
   const [layer, setLayer] = useState<MapLayer>("LIVE");
   const [selected, setSelected] = useState<string | null>(null);
   const pins = usePins(layer);
-  const [center, setCenter] = useState(HOME);
-  const [area, setArea] = useState(HOME);
+  const [center, setCenter] = useState<{ lat: number; lng: number }>(HOME);
+  const [area, setArea] = useState<{ lat: number; lng: number }>(HOME);
   const selectPin = useCallback((p: {id: string}) => setSelected(p.id), []);
 
   const nearbyPlaces = useMemo(

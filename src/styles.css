@@ -165,3 +165,4 @@
 .leaflet-container { background: var(--night); font-family: var(--font-sans); }
 .leaflet-control-attribution { opacity: .65; font-size: 9px !important; }
 @media (prefers-reduced-motion: reduce) { .animate-alpha-rise,.animate-alpha-pulse { animation: none; } }
+.alpha-tiles { filter: invert(1) hue-rotate(200deg) brightness(.85) saturate(.6); }

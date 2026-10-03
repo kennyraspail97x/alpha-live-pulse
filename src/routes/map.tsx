@@ -50,14 +50,14 @@ function MapPage() {
     <div className="relative">
       <div className="fixed inset-x-0 top-0 z-10 mx-auto h-[62vh] max-w-[520px]">
         <Suspense fallback={<div className="h-full bg-night" />}><InteractiveMap pins={pins} selectedId={selected ?? undefined} onSelect={selectPin} onMove={setCenter} /></Suspense>
-        <div className="no-scrollbar absolute top-5 right-4 left-4 flex gap-2 overflow-x-auto">
+        <div className="no-scrollbar absolute top-5 right-4 left-4 z-[500] flex gap-2 overflow-x-auto">
           {LAYERS.map((l) => (
             <Chip key={l} active={layer === l} onClick={() => { setLayer(l); setSelected(null); }}>
               {l}
             </Chip>
           ))}
         </div>
-        <div className="absolute bottom-[12%] left-4 flex gap-2"><Chip onClick={() => { navigator.geolocation?.getCurrentPosition(position => { const pos = { lat: position.coords.latitude, lng: position.coords.longitude }; setCenter(pos); setArea(pos); }, () => {}); }}>Me localiser</Chip><Chip onClick={() => setArea(center)}>Rechercher dans cette zone</Chip></div>
+        <div className="absolute bottom-[12%] left-4 z-[500] flex gap-2"><Chip onClick={() => { navigator.geolocation?.getCurrentPosition(position => { const pos = { lat: position.coords.latitude, lng: position.coords.longitude }; setCenter(pos); setArea(pos); }, () => {}); }}>Me localiser</Chip><Chip onClick={() => setArea(center)}>Rechercher dans cette zone</Chip></div>
       </div>
 
       <div className="relative z-20 mt-[56vh] min-h-[60vh] rounded-t-[28px] bg-background pt-2 pb-6 alpha-hairline">
